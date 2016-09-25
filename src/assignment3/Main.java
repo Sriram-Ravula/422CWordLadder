@@ -64,8 +64,19 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		// TO DO
-		return null;
+		ArrayList<String> startEnd = new ArrayList<String>(); //create the arrayList that holds the start and end words to output
+		
+		String input = keyboard.nextLine(); //grab the next line from the keyboard
+		
+		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
+		
+		if (parsed[0].equals("/quit")) //if the user wishes to quit, return an empty array
+			return startEnd;
+		
+		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
+		startEnd.add(parsed[1].toUpperCase()); //add the end word converted to upper case to the return array
+		
+		return startEnd;
 	}
 	
 	/**
