@@ -7,7 +7,7 @@
  * <Student2 EID>
  * <Student2 5-digit Unique No.>
  * Slip days used: <0>
- * Git URL:
+ * Git URL: https://github.com/Sriram-Ravula/422CWordLadder.git
  * Fall 2016
  */
 
@@ -95,14 +95,14 @@ public class Main {
 	 * If there exists no ladder, return empty list. 
 	 */
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		
+		ArrayList<String> wordLadder = new ArrayList<String>();
 		// Returned list should be ordered start to end.  Include start and end.
 		// Return empty list if no ladder.
 		// TODO some code
 		Set<String> dict = makeDictionary();
 		// TODO more code
 		
-		return null; // replace this line later with real return
+		return wordLadder; // replace this line later with real return
 	}
 	
 	/**
