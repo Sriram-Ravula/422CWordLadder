@@ -42,6 +42,8 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
+		ArrayList<String> input = parse(kb);
+		System.out.println(input); //temporary testing TODO delete this before final submission
 		
 		// TODO methods to read in words, output ladder
 	}
@@ -70,9 +72,14 @@ public class Main {
 		
 		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		
-		if (parsed[0].equals("/quit")) //if the user wishes to quit, return an empty array
-			return startEnd;
+		while (!parsed[0].equals("/quit") && parsed[0].length() != parsed[1].length()){ //if the input is invalid, read in again
+			input = keyboard.nextLine(); //grab the next line from the keyboard
+			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
+		}
 		
+		if(parsed[0].equals("/quit")) //if the user wishes to quit, return an empty array
+			return startEnd;
+
 		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
 		startEnd.add(parsed[1].toUpperCase()); //add the end word converted to upper case to the return array
 		
