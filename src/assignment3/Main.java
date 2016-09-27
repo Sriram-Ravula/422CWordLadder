@@ -72,12 +72,12 @@ public class Main {
 		
 		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		
-		while (!parsed[0].equals("/quit") && parsed[0].length() != parsed[1].length()){ //if the input is invalid, read in again
+		while (!parsed[0].equals("/quit") && !parsed[1].equals("/quit") && parsed[0].length() != parsed[1].length()){ //if the input is invalid, read in again
 			input = keyboard.nextLine(); //grab the next line from the keyboard
 			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		}
 		
-		if(parsed[0].equals("/quit")) //if the user wishes to quit, return an empty array
+		if(parsed[0].equals("/quit") || parsed[1].equals("/quit")) //if the user wishes to quit, return an empty array
 			return startEnd;
 
 		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
