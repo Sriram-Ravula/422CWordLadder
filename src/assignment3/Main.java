@@ -4,11 +4,11 @@
  * sr39533
  * 16475
  * Rahul Jain
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * rj8656
+ * 16470
  * Slip days used: <0>
- * Git URL: https://github.com/Sriram-Ravula/422CWordLadder.git
- * Fall 2016
+ * Git URL: https://github.com/Sriram-Ravula/422CWordLadder
+ * Fall 2016 
  */
 
 
@@ -87,6 +87,27 @@ public class Main {
 	}
 	
 	/**
+	 * Determines if two strings of the same length differ by one letter
+	 * @param a the first string to compare
+	 * @param b the second string to compare
+	 * @return true if the strings differ by one letter, false otherwise
+	 */
+	public static boolean oneLetterDiff(String a, String b){
+		if(a.length() != b.length()) ///if the two strings are different lengths, fails conditions
+			return false;
+		boolean diffFound = false; //tracks if a difference has already been found
+		
+		for (int i = 0; i < a.length(); i++){
+			if(a.charAt(i) != b.charAt(i)){
+				if(diffFound) //if a difference has already been found, fail
+					return false;
+				diffFound = true;
+			}
+		}
+		return diffFound;
+	}
+	
+	/**
 	 * Attempts to find a word ladder between the start and end word using a 
 	 * depth-first search.
 	 * @param start the starting word of the ladder
@@ -98,11 +119,9 @@ public class Main {
 		ArrayList<String> wordLadder = new ArrayList<String>();
 		// Returned list should be ordered start to end.  Include start and end.
 		// Return empty list if no ladder.
-		// TODO some code
 		Set<String> dict = makeDictionary();
-		// TODO more code
 		
-		return wordLadder; // replace this line later with real return
+		return wordLadder; 
 	}
 	
 	/**
