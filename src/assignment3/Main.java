@@ -1,14 +1,15 @@
+
 /* WORD LADDER Main.java
  * EE422C Project 3 submission by
  * Sriram Ravula
  * sr39533
  * 16475
  * Rahul Jain
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * rj8656
+ * 16470
  * Slip days used: <0>
- * Git URL:
- * Fall 2016
+ * Git URL: https://github.com/Sriram-Ravula/422CWordLadder
+ * Fall 2016 
  */
 
 
@@ -115,7 +116,7 @@ public class Main {
 	 */
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		
-		// TODO some code
+
 		Set<String> dict = makeDictionary();
 		// TODO more code
 		
