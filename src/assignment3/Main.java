@@ -45,7 +45,7 @@ public class Main {
 		initialize();
 		ArrayList<String> input = parse(kb);
 		System.out.println(input); //temporary testing TODO delete this before final submission
-		
+		System.out.println(getWordLadderBFS(input.get(0),input.get(1))); //temporary testing delete this
 		// TODO methods to read in words, output ladder
 	}
 	
@@ -108,6 +108,7 @@ public class Main {
 		return diffFound;
 	}
 	
+	
 	/**
 	 * Attempts to find a word ladder between the start and end word using a 
 	 * depth-first search.
@@ -118,6 +119,7 @@ public class Main {
 	 */
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		ArrayList<String> wordLadder = new ArrayList<String>();
+		
 		// Returned list should be ordered start to end.  Include start and end.
 		// Return empty list if no ladder.
 		Set<String> dict = makeDictionary();
@@ -134,10 +136,41 @@ public class Main {
 	 * If there exists no ladder, return empty list. 
 	 */
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		
-
+    	ArrayList<String> wordLadder = new ArrayList<String>();
+    	Set<String> used = new HashSet<String>();
 		Set<String> dict = makeDictionary();
-		// TODO more code
+		String[] dictionary = dict.toArray(new String[0]);
+		Word oneaway = new Word("");
+		boolean found = false;
+		used.add(start);
+		
+		Queue<Word> BFS = new LinkedList<Word>();
+		BFS.add(new Word(start));
+		
+		while(!BFS.isEmpty()){
+			if(BFS.peek().getValue().equals(end)){
+				break;
+			}
+			System.out.println(BFS.peek().getValue());
+			for(int i = 0; i< dictionary.length; i++){
+				if(oneLetterDiff(dictionary[i],BFS.peek().getValue()) && !used.contains(dictionary[i])){
+					oneaway = new Word(dictionary[i], BFS.peek());
+					used.add(oneaway.getValue());
+					BFS.add(oneaway);
+					if(oneaway.getValue().equals(end)) {
+						found = true;
+						break;
+					}
+				}
+			}
+			
+			if(found) break;
+			BFS.remove();
+		}
+		
+		System.out.println(oneaway.getValue());
+		if(BFS.isEmpty())
+			return wordLadder;
 		
 		return null; // replace this line later with real return
 	}
