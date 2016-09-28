@@ -25,6 +25,8 @@ public class Main {
 	// static variables and constants only here.
 	public static String first; //holds the start value
 	public static String last; //holds the end value
+	public static boolean firstRun; //tracks if this is the first run of the DFS
+	public static Set<String> dictionary; //the dictionary of words
 	
 	/**
 	  * Reads user keyboard input and outputs the desired word ladder if one exists
@@ -59,6 +61,8 @@ public class Main {
 		// initialize your static variables or constants here.
 		// We will call this method before running our JUNIT tests.  So call it 
 		// only once at the start of main.
+		firstRun = true;
+		dictionary = makeDictionary();
 	}
 	
 	/**
@@ -98,7 +102,7 @@ public class Main {
 	 * @param b the second string to compare
 	 * @return true if the strings differ by one letter, false otherwise
 	 */
-	public static boolean oneLetterDiff(String a, String b){
+	private static boolean oneLetterDiff(String a, String b){
 		if(a.length() != b.length()) ///if the two strings are different lengths, fails conditions
 			return false;
 		boolean diffFound = false; //tracks if a difference has already been found
@@ -123,13 +127,47 @@ public class Main {
 	 * If there exists no ladder, return empty list. 
 	 */
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		ArrayList<String> wordLadder = new ArrayList<String>();
-		
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		Set<String> dict = makeDictionary();
-		
-		return wordLadder; 
+        ArrayList<String> wordLadder = new ArrayList<String>();
+       
+        if(firstRun){
+        	dictionary = makeDictionary();
+        	firstRun = false;
+        }
+              
+        ArrayList<String> branches = new ArrayList<String>(); //the arrayList containing all the branches of the current word
+        for(String i: dictionary){ //iterate thru the dictionary and add all words that differ by one letter from the start
+            if(oneLetterDiff(start, i))
+                branches.add(i);
+        }
+       
+        if(branches.size() == 0){ //if there are no next words, then there is no ladder
+            dictionary.remove(start);
+            return wordLadder;
+        }
+       
+        if(branches.contains(end)){ //if the branch contains the last word already, return an array of size two
+            wordLadder.add(start);
+            wordLadder.add(end);
+            return wordLadder;
+        }
+        
+        dictionary.removeAll(branches); //remove all the branch nodes
+       
+        ArrayList<String> temp = new ArrayList<String>();
+        for(String i: branches){
+        	temp = getWordLadderDFS(i, end);
+        	if(temp.size()!=0){
+        		wordLadder = temp;
+        		break;
+        	}
+        }
+        
+        if (temp.size() == 0) //if there is a dead end, then return an empty list
+        	return temp;
+       
+        wordLadder.add(0, start);
+        firstRun = true; //reset firstRun before the next iteration
+        return wordLadder;
 	}
 	
 	/**
