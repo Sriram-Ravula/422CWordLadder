@@ -79,13 +79,13 @@ public class Main {
 		
 		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
-			System.exit(0);
+			return startEnd;
 		
 		while (parsed.length < 2 || (parsed.length >= 2 && parsed[0].length() != parsed[1].length())){ //if the input is invalid, read in again
 			input = keyboard.nextLine(); //grab the next line from the keyboard
 			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 			if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
-				System.exit(0);
+				return startEnd;
 		}
 		
 		first = parsed[0].toUpperCase();
@@ -249,12 +249,12 @@ public class Main {
 	 */
 	public static void printLadder(ArrayList<String> ladder) {
 		if(ladder.isEmpty()){
-			System.out.println("no word ladder can be found between " + first + " and " + last + ".");
+			System.out.println("no word ladder can be found between " + first.toLowerCase() + " and " + last.toLowerCase() + ".");
 		}
 		else{
-			System.out.println("a " + (ladder.size()-2) + "-rung word ladder exists between " + first + " and " + last + ".");
+			System.out.println("a " + (ladder.size()-2) + "-rung word ladder exists between " + first.toLowerCase() + " and " + last.toLowerCase() + ".");
 			for(String s : ladder){
-				System.out.println(s);
+				System.out.println(s.toLowerCase());
 			}
 			
 		}
