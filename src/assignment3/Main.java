@@ -23,6 +23,8 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
+	public static String first; //holds the start value
+	public static String last; //holds the end value
 	
 	/**
 	  * Reads user keyboard input and outputs the desired word ladder if one exists
@@ -83,6 +85,9 @@ public class Main {
 
 		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
 		startEnd.add(parsed[1].toUpperCase()); //add the end word converted to upper case to the return array
+		
+		first = parsed[0].toUpperCase();
+		last = parsed[1].toUpperCase();
 		
 		return startEnd;
 	}
