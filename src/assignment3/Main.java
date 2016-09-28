@@ -84,7 +84,7 @@ public class Main {
 			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		}
 		
-		if(parsed[0].equals("/quit") || parsed[1].equals("/quit")) //if the user wishes to quit, return an empty array
+		if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, return an empty array
 			return startEnd;
 
 		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
@@ -140,10 +140,8 @@ public class Main {
                 branches.add(i);
         }
        
-        if(branches.size() == 0){ //if there are no next words, then there is no ladder
-            dictionary.remove(start);
+        if(branches.size() == 0) //if there are no next words, then there is no ladder
             return wordLadder;
-        }
        
         if(branches.contains(end)){ //if the branch contains the last word already, return an array of size two
             wordLadder.add(start);
