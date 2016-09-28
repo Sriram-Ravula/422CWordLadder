@@ -23,6 +23,10 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
+	public static String first;
+	public static String last;
+	public static boolean firstRun; //tracks if this is the first run of the DFS
+	public static Set<String> dictionary; //the dictionary of words
 	
 	/**
 	  * Reads user keyboard input and outputs the desired word ladder if one exists
@@ -57,6 +61,8 @@ public class Main {
 		// initialize your static variables or constants here.
 		// We will call this method before running our JUNIT tests.  So call it 
 		// only once at the start of main.
+		firstRun = true;
+		dictionary = makeDictionary();
 	}
 	
 	/**
@@ -83,6 +89,9 @@ public class Main {
 
 		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
 		startEnd.add(parsed[1].toUpperCase()); //add the end word converted to upper case to the return array
+		
+		first = parsed[0].toUpperCase();
+		last = parsed[1].toUpperCase();
 		
 		return startEnd;
 	}
@@ -116,14 +125,38 @@ public class Main {
 	 * @return ArrayList of word ladder ordered from start word to end word.
 	 * If there exists no ladder, return empty list. 
 	 */
-	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		ArrayList<String> wordLadder = new ArrayList<String>();
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		Set<String> dict = makeDictionary();
-		
-		return wordLadder; 
-	}
+    public static ArrayList<String> getWordLadderDFS(String start, String end) {
+        ArrayList<String> wordLadder = new ArrayList<String>();
+       
+        if(firstRun){
+        	dictionary = makeDictionary();
+        	firstRun = false;
+        }
+       
+        dictionary.remove(start); //remove the start word to say this node has been visited
+       
+        ArrayList<String> branches = new ArrayList<String>(); //the arrayList containing all the branches of the current word
+        for(String i: dictionary){ //iterate thru the dictionary and add all words that differ by one letter from the start
+            if(oneLetterDiff(start, i))
+                branches.add(i);
+        }
+        
+        dictionary.removeAll(branches); //remove all the branch nodes
+       
+        if(branches.size() == 0) //if there are no next words, then there is no ladder
+            return wordLadder;
+       
+        if(branches.contains(end)){ //if the branch contains the last word already, return an array of size two
+            wordLadder.add(start);
+            wordLadder.add(end);
+            return wordLadder;
+        }
+       
+        
+       
+        firstRun = true; //reset firstRun before the next iteration
+        return wordLadder;
+    }
 	
 	/**
 	 * Attempts to find a word ladder between the start and end word using a 
