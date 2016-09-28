@@ -211,9 +211,16 @@ public class Main {
 		
 		System.out.println(oneaway.getValue());
 		if(BFS.isEmpty())
-			return wordLadder;
+			return null;
 		
-		return null; // replace this line later with real return
+		while(oneaway != null){
+			wordLadder.add(oneaway.getValue());
+			oneaway = oneaway.getParent();
+		}
+		
+		Collections.reverse(wordLadder);
+		
+		return wordLadder; // replace this line later with real return
 	}
     
 	/**
