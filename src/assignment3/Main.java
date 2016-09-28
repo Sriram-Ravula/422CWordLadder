@@ -49,7 +49,7 @@ public class Main {
 		initialize();
 		ArrayList<String> input = parse(kb);
 		System.out.println(input); //temporary testing TODO delete this before final submission
-		System.out.println(getWordLadderBFS(input.get(0),input.get(1))); //temporary testing delete this
+		printLadder(getWordLadderBFS(input.get(0),input.get(1))); //temporary testing delete this
 		// TODO methods to read in words, output ladder
 	}
 	
@@ -78,20 +78,21 @@ public class Main {
 		String input = keyboard.nextLine(); //grab the next line from the keyboard
 		
 		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
+		if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
+			System.exit(0);
 		
-		while (!parsed[0].equals("/quit") && !parsed[1].equals("/quit") && parsed[0].length() != parsed[1].length()){ //if the input is invalid, read in again
+		while (parsed.length < 2 || (parsed.length >= 2 && parsed[0].length() != parsed[1].length())){ //if the input is invalid, read in again
 			input = keyboard.nextLine(); //grab the next line from the keyboard
 			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
+			if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
+				System.exit(0);
 		}
-		
-		if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, return an empty array
-			return startEnd;
-
-		startEnd.add(parsed[0].toUpperCase()); //add the start word converted to upper case to the return array
-		startEnd.add(parsed[1].toUpperCase()); //add the end word converted to upper case to the return array
 		
 		first = parsed[0].toUpperCase();
 		last = parsed[1].toUpperCase();
+
+		startEnd.add(first); //add the start word converted to upper case to the return array
+		startEnd.add(last); //add the end word converted to upper case to the return array
 		
 		return startEnd;
 	}
@@ -178,49 +179,46 @@ public class Main {
 	 */
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
     	ArrayList<String> wordLadder = new ArrayList<String>();
-    	Set<String> used = new HashSet<String>();
+    	Set<String> used = new HashSet<String>();				//keep track of used words
 		Set<String> dict = makeDictionary();
-		String[] dictionary = dict.toArray(new String[0]);
-		Word oneaway = new Word("");
+		String[] dictionary = dict.toArray(new String[0]);		// convert the set to an array
+		Word oneaway = new Word("");							// will find new words one letter away from current
 		boolean found = false;
-		used.add(start);
+		used.add(start);										
 		
 		Queue<Word> BFS = new LinkedList<Word>();
-		BFS.add(new Word(start));
+		BFS.add(new Word(start));								// start queue with the starting word
 		
-		while(!BFS.isEmpty()){
-			if(BFS.peek().getValue().equals(end)){
-				break;
-			}
-			System.out.println(BFS.peek().getValue());
+		while(!BFS.isEmpty()){									//keep searching while there are still items in queue
+//			System.out.println(BFS.peek().getValue());  delete this
 			for(int i = 0; i< dictionary.length; i++){
-				if(oneLetterDiff(dictionary[i],BFS.peek().getValue()) && !used.contains(dictionary[i])){
-					oneaway = new Word(dictionary[i], BFS.peek());
+				if(oneLetterDiff(dictionary[i],BFS.peek().getValue()) && !used.contains(dictionary[i])){		//find words one letter away from current queued word
+					oneaway = new Word(dictionary[i], BFS.peek());			//add these new words to the queue
 					used.add(oneaway.getValue());
 					BFS.add(oneaway);
-					if(oneaway.getValue().equals(end)) {
-						found = true;
+					if(oneaway.getValue().equals(end)) {					// if the value is the end string, quit out of loops
+						found = true;	
 						break;
 					}
 				}
 			}
 			
 			if(found) break;
-			BFS.remove();
+			BFS.remove();			//dequeue first string in queue
 		}
 		
-		System.out.println(oneaway.getValue());
-		if(BFS.isEmpty())
-			return null;
+//		System.out.println(oneaway.getValue());  delete this
+		if(BFS.isEmpty())			//happens when the queue while loop ended, no ladder found so return empty array
+			return wordLadder;
 		
-		while(oneaway != null){
+		while(oneaway != null){		// we found oneaway to be end word, find ladder by finding all parent Words
 			wordLadder.add(oneaway.getValue());
 			oneaway = oneaway.getParent();
 		}
 		
-		Collections.reverse(wordLadder);
+		Collections.reverse(wordLadder);	//reverse order of ladder so it goes start --> end
 		
-		return wordLadder; // replace this line later with real return
+		return wordLadder; 
 	}
     
 	/**
@@ -250,7 +248,16 @@ public class Main {
 	 * @return none 
 	 */
 	public static void printLadder(ArrayList<String> ladder) {
-		
+		if(ladder.isEmpty()){
+			System.out.println("no word ladder can be found between " + first + " and " + last + ".");
+		}
+		else{
+			System.out.println("a " + (ladder.size()-2) + "-rung word ladder exists between " + first + " and " + last + ".");
+			for(String s : ladder){
+				System.out.println(s);
+			}
+			
+		}
 	}
 	// TODO
 	// Other private static methods here
