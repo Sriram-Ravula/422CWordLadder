@@ -48,9 +48,11 @@ public class Main {
 		}
 		initialize();
 		ArrayList<String> input = parse(kb);
+		if(input.isEmpty()) System.exit(0);				// if /quit then quit 
+		
 		System.out.println(input); //temporary testing TODO delete this before final submission
 		printLadder(getWordLadderBFS(input.get(0),input.get(1))); //temporary testing delete this
-		// TODO methods to read in words, output ladder
+
 	}
 	
 	/**
