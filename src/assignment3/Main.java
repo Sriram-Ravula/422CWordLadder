@@ -1,4 +1,3 @@
-
 /* WORD LADDER Main.java
  * EE422C Project 3 submission by
  * Sriram Ravula
@@ -23,10 +22,10 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
-	public static String first; //holds the start value
-	public static String last; //holds the end value
-	public static boolean firstRun; //tracks if this is the first run of the DFS
-	public static Set<String> dictionary; //the dictionary of words
+	private static String first;  //holds the start value
+	private static String last;  //holds the end value
+	private static boolean firstRun;  //tracks if this is the first run of the DFS
+	private static Set<String> dictionary;  //the dictionary of words
 	
 	/**
 	  * Reads user keyboard input and outputs the desired word ladder if one exists
@@ -49,8 +48,6 @@ public class Main {
 		initialize();
 		ArrayList<String> input = parse(kb);
 		if(input.isEmpty()) System.exit(0);				// if /quit then quit 
-		
-		System.out.println(input); //temporary testing TODO delete this before final submission
 		printLadder(getWordLadderBFS(input.get(0),input.get(1))); //temporary testing delete this
 
 	}
@@ -60,9 +57,6 @@ public class Main {
 	  * @return none
 	  */
 	public static void initialize() {
-		// initialize your static variables or constants here.
-		// We will call this method before running our JUNIT tests.  So call it 
-		// only once at the start of main.
 		firstRun = true;
 		dictionary = makeDictionary();
 	}
@@ -81,13 +75,13 @@ public class Main {
 		
 		String[] parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 		if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
-			return startEnd;
+			System.exit(0);
 		
 		while (parsed.length < 2 || (parsed.length >= 2 && parsed[0].length() != parsed[1].length())){ //if the input is invalid, read in again
 			input = keyboard.nextLine(); //grab the next line from the keyboard
 			parsed = (input.trim()).split("\\s+"); //trim the whitespace from the front and back of the user input, then split it into Strings separated by whitespace
 			if(Arrays.asList(parsed).contains("/quit")) //if the user wishes to quit, exit program
-				return startEnd;
+				System.exit(0);;
 		}
 		
 		first = parsed[0].toUpperCase();
@@ -155,7 +149,7 @@ public class Main {
         dictionary.removeAll(branches); //remove all the branch nodes
        
         ArrayList<String> temp = new ArrayList<String>();
-        for(String i: branches){
+        for(String i: branches){	// recursively find valid wordLadder
         	temp = getWordLadderDFS(i, end);
         	if(temp.size()!=0){
         		wordLadder = temp;
@@ -192,7 +186,6 @@ public class Main {
 		BFS.add(new Word(start));								// start queue with the starting word
 		
 		while(!BFS.isEmpty()){									//keep searching while there are still items in queue
-//			System.out.println(BFS.peek().getValue());  delete this
 			for(int i = 0; i< dictionary.length; i++){
 				if(oneLetterDiff(dictionary[i],BFS.peek().getValue()) && !used.contains(dictionary[i])){		//find words one letter away from current queued word
 					oneaway = new Word(dictionary[i], BFS.peek());			//add these new words to the queue
@@ -209,7 +202,6 @@ public class Main {
 			BFS.remove();			//dequeue first string in queue
 		}
 		
-//		System.out.println(oneaway.getValue());  delete this
 		if(BFS.isEmpty())			//happens when the queue while loop ended, no ladder found so return empty array
 			return wordLadder;
 		
@@ -261,6 +253,4 @@ public class Main {
 			
 		}
 	}
-	// TODO
-	// Other private static methods here
 }
